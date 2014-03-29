@@ -1,0 +1,24 @@
+#!python
+
+from libre import LibreText, LibreManager 
+
+import argparse
+
+parser = argparse.ArgumentParser(description='LiBRE! Manager')
+parser.add_argument('--username', help="Specify username", required=True)
+parser.add_argument('--password', help="Specify password", required=True)
+parser.add_argument("--page", help="Specify page to operate on", required=True)
+parser.add_argument("--action", help="Specify action (get, linking)", required=True)
+args = parser.parse_args()
+
+manager = LibreManager(args.username, args.password) 
+
+if args.action == "get": 
+	print manager.getPage(args.page) 
+elif args.action == "linking": 
+	texts = manager.getAllLinked(args.page) 
+	print "_____________________________________________________________"
+	for text in texts: 
+		print text.getTitle()
+else: 
+	print "Bad action selected. "
