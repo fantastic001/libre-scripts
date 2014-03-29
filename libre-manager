@@ -3,6 +3,7 @@
 from libre import LibreText, LibreManager 
 
 import argparse
+import os
 
 parser = argparse.ArgumentParser(description='LiBRE! Manager')
 parser.add_argument('--username', help="Specify username", required=True)
@@ -18,7 +19,17 @@ if args.action == "get":
 elif args.action == "linking": 
 	texts = manager.getAllLinked(args.page) 
 	print "_____________________________________________________________"
+	homepath = os.getenv("HOME", "/home")
+	path = os.getenv("LIBRE_DEFAULT_DATABASE", homepath + "/LiBRE-work/" + args.page + "/")
 	for text in texts: 
-		print text.getTitle()
+		if text.getTitle().strip() != "": 
+			filename = text.getTitle().encode("utf8") + ".html"
+			if os.path.exists(path + filename): 
+				filename = text.getTitle().encode("utf8") + "_" + ".html"
+			f = open(path + filename, "w")
+			f.write(text.getHTML().encode("utf8"))
+			f.close()
+	
+		
 else: 
 	print "Bad action selected. "

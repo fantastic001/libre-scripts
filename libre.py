@@ -156,9 +156,9 @@ class LibreManager(object):
 		links = self.remote.links(source) 
 		for link in links: 
 			if link["type"] == "local": 
-				print link["page"]
+				#print link["page"]
 				libretext = self.getPage("wiki:" + link["page"])
-				print "Title: " + libretext.getTitle()
+				#print "Title: " + libretext.getTitle()
 				res.append(libretext)
 		return res
 
