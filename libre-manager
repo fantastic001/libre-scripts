@@ -22,7 +22,7 @@ elif args.action == "linking":
 	homepath = os.getenv("HOME", "/home")
 	path = os.getenv("LIBRE_DEFAULT_DATABASE", homepath + "/LiBRE-work/" + args.page + "/")
 	for text in texts: 
-		if text.getTitle().strip() != "": 
+		if text.getTitle().strip() != "":
 			filename = text.getTitle().encode("utf8") + ".html"
 			if os.path.exists(path + filename): 
 				filename = text.getTitle().encode("utf8") + "_" + ".html"

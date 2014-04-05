@@ -43,6 +43,7 @@ class LibreTextParser(Parser):
 		match = m.match(text) 
 		if match: 
 			self.libre_author = match.group(2)
+			return 
 
 		bold = False
 		italic = False
@@ -72,6 +73,13 @@ class LibreTextParser(Parser):
 				self.output += "<u>"
 			elif element.getMode() == LineElement.Mode.UNDERLINE and underline: 
 				self.output += "</u>"
+			elif element.getMode() == LineElement.Mode.LINK: 
+				link_title = element.getTitle() 
+				if link_title == "" or link_title == None: 
+					link_title = element.getURL()
+				self.output += element.getURL()
+			else: 
+				raise WikiSyntaxError()
 	
 	def onDocumentEnd(self): 
 		self.output += "</body></html>"
@@ -154,10 +162,13 @@ class LibreManager(object):
 		"""
 		res = []
 		links = self.remote.links(source) 
-		for link in links: 
+		for link in links:
 			if link["type"] == "local": 
 				#print link["page"]
+				print "getting page " + link["page"]
 				libretext = self.getPage("wiki:" + link["page"])
+				print "Title: " + libretext.getTitle() 
+				print
 				#print "Title: " + libretext.getTitle()
 				res.append(libretext)
 		return res
