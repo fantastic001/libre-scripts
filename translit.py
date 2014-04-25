@@ -95,6 +95,34 @@ def lat_to_cir(text):
     		ntext = ntext.replace(cir_lat_map[cl], cl)
     return ntext
 
+class TranslatorLineParser(LineParser): 
+	def onStart(self): 
+		self.output = ""
+		self.translate = True
+	def onNormal(self, text): 
+		if self.translate: 
+			self.output += lat_to_cir(text)
+		else:	
+			self.output += text
+	def onItalicStart(self): 
+		self.translate = False
+		self.output += "//"
+	def onItalicEnd(self): 
+		self.translate = True 
+		self.output += "//"
+	def onBoldStart(self): 
+		self.output += "**"
+	def onBoldEnd(self): 
+		self.output += "**"
+	def onUnderlineStart(self):
+		self.output += "__"
+	def onUnderlineEnd(self):
+		self.output += "__"
+	def onLink(self, url, title): 
+		self.output += "[[" + title + "|" + url + "]]"
+	def getOutput(self): 
+		return self.output 
+
 class TranslatorParser(Parser): 
         
     def onDocumentStart(self):
@@ -104,7 +132,9 @@ class TranslatorParser(Parser):
     def onListStart(self, mode): pass
     def onListEnd(self): pass
     def onListItem(self, level, text):
-        self.frame += "  * " + lat_to_cir(text) + "\n"
+	l = TranslatorLineParser(text) 
+	new_text = l.getOutput()
+        self.frame += "  * " + new_text + "\n"
     def onCodeStart(self, language, filename): 
         self.frame += "<code>" + "\n"
     def onCode(self, text): 
@@ -116,27 +146,9 @@ class TranslatorParser(Parser):
     def onParagraphEnd(self): 
         self.frame += "\n"
     def onText(self, text):
-        l = LineParser()
-        s = l.prepare(text)
-        elements = l.parse(s) 
-        translate = True
-        for e in elements: 
-            if e == "//":
-                if translate: 
-                    translate = False 
-                else: 
-                    translate = True 
-            if LineElement(e).getMode() == LineElement.Mode.LINK:
-                # Links are in latin so leave it and continue 
-                self.frame += e 
-                continue 
-            # convert ot cir and append to frame 
-            if translate: 
-                self.frame += lat_to_cir(e)
-            else: 
-                self.frame += e
+        l = TranslatorLineParser(text)
+	self.frame += l.getOutput() # huh, easy :)
         self.frame += "\n" # Don't forget to take newline
-
     def onDocumentEnd(self): pass
     def getOutput(self): 
         return self.frame
