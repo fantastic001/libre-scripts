@@ -93,7 +93,11 @@ class LibreManager(object):
 
 		NOTE: page should be with namespace
 		"""
-		return LibreText(self.remote.page(page))
+		# try without namespace
+		l = LibreText(self.remote.page(page))
+		if l.getTitle() == "":
+			l = LibreText(self.remote.page("wiki:" + page)) # try with namespace 
+		return l
 	
 	def getAllLinked(self, source): 
 		"""
@@ -105,7 +109,7 @@ class LibreManager(object):
 			if link["type"] == "local": 
 				#print link["page"]
 				print "getting page " + link["page"]
-				libretext = self.getPage("wiki:" + link["page"])
+				libretext = self.getPage(link["page"])
 				print "Title: " + libretext.getTitle() 
 				print
 				#print "Title: " + libretext.getTitle()
