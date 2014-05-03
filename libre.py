@@ -41,7 +41,7 @@ class LibreText(object):
 		self.status = parser.libre_status
 
 		html_parser = HTMLParser() 
-		for lin in blocks: 
+		for line in blocks: 
 			html_parser.parse(line)
 		html_parser.finish()
 		self.html = html_parser.getOutput()
