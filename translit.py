@@ -120,6 +120,8 @@ class TranslatorLineParser(LineParser):
 		self.output += "__"
 	def onLink(self, url, title): 
 		self.output += "[[" + title + "|" + url + "]]"
+	def onImage(self, params):
+		self.output += "{{" + params + "}}"
 	def getOutput(self): 
 		return self.output 
 
