@@ -155,17 +155,16 @@ class TranslatorParser(Parser):
     def getOutput(self): 
         return self.frame
 
-# load whole file 
-f = open(sys.argv[1], "r") 
-text = f.read().decode("utf8")
-lines = text.split("\n")
-p = TranslatorParser()
-#print text
-for line in lines:
-    #print "Parsing line: " + line
-    p.parse(line) 
-p.finish()
+if __name__ == "__main__": 
+	# load whole file 
+	f = open(sys.argv[1], "r") 
+	text = f.read().decode("utf8")
+	lines = text.split("\n")
+	p = TranslatorParser()
+	#print text
+	for line in lines:
+	    #print "Parsing line: " + line
+	    p.parse(line) 
+	p.finish()
 
-
-
-print p.getOutput().encode("utf8")
+	print p.getOutput().encode("utf8")
