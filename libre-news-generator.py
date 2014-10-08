@@ -166,7 +166,7 @@ class LibreNewsItem(object):
 		s += "%s\\\\\n" % self.date
 		s += "%s\n" % self.description
 		s += "\n"
-		s += "Koristan link: %s \\\\\n" % self.url
+		s += lat_to_cir("Koristan link: ") + self.url + " \\\\\n"
 		s += "\\\\\n"
 		s += "\n" 
 		return s.encode("utf8")
