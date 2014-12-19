@@ -5,66 +5,66 @@ from dokuwiki.parsers import Parser, LineParser
 from dokuwiki.elements import LineElement
 
 cir_lat_map = {
-	u"љ": u"lj", 
-	u"њ": u"nj", 
-	u"е": u"e", 
-	u"р": u"r", 
-	u"т": u"t", 
-	u"з": u"z",
-	u"у": u"u", 
-	u"и": u"i", 
-	u"о": u"o", 
-	u"п": u"p", 
-	u"а": u"a",
-	u"с": u"s", 
-	u"д": u"d", 
-	u"ф": u"f", 
-	u"г": u"g", 
-	u"х": u"h", 
-	u"ј": u"j", 
-	u"к": u"k", 
-	u"л": u"l", 
-	u"џ": u"dž", 
-	u"ц": u"c", 
-	u"в": u"v", 
-	u"б": u"b", 
-	u"н": u"n", 
-	u"м": u"m", 
-	u"ш": u"š", 
-	u"ђ": u"đ",
-	u"ж": u"ž", 
-	u"ч": u"č", 
-	u"ћ": u"ć", 
-	u"Љ": u"Lj",
-	u"Њ": u"Nj",
-	u"Е": u"E", 
-	u"Р": u"R",
-	u"Т": u"T", 
-	u"З": u"Z", 
-	u"У": u"U",
-	u"И": u"I", 
-	u"О": u"O",
-	u"П": u"P",
-	u"А": u"A",
-	u"С": u"S", 
-	u"Д": u"D", 
-	u"Ф": u"F", 
-	u"Г": u"G", 
-	u"Х": u"H", 
-	u"Ј": u"J", 
-	u"К": u"K", 
-	u"Л": u"L", 
-	u"Џ": u"Dž", 
-	u"Ц": u"C", 
-	u"В": u"V", 
-	u"Б": u"B", 
-	u"Н": u"N", 
-	u"М": u"M", 
-	u"Ш": u"Š", 
-	u"Ђ": u"Đ", 
-	u"Ж": u"Ž",
-	u"Ч": u"Č",
-	u"Ћ": u"Ć"
+	"љ": "lj", 
+	"њ": "nj", 
+	"е": "e", 
+	"р": "r", 
+	"т": "t", 
+	"з": "z",
+	"у": "u", 
+	"и": "i", 
+	"о": "o", 
+	"п": "p", 
+	"а": "a",
+	"с": "s", 
+	"д": "d", 
+	"ф": "f", 
+	"г": "g", 
+	"х": "h", 
+	"ј": "j", 
+	"к": "k", 
+	"л": "l", 
+	"џ": "dž", 
+	"ц": "c", 
+	"в": "v", 
+	"б": "b", 
+	"н": "n", 
+	"м": "m", 
+	"ш": "š", 
+	"ђ": "đ",
+	"ж": "ž", 
+	"ч": "č", 
+	"ћ": "ć", 
+	"Љ": "Lj",
+	"Њ": "Nj",
+	"Е": "E", 
+	"Р": "R",
+	"Т": "T", 
+	"З": "Z", 
+	"У": "U",
+	"И": "I", 
+	"О": "O",
+	"П": "P",
+	"А": "A",
+	"С": "S", 
+	"Д": "D", 
+	"Ф": "F", 
+	"Г": "G", 
+	"Х": "H", 
+	"Ј": "J", 
+	"К": "K", 
+	"Л": "L", 
+	"Џ": "Dž", 
+	"Ц": "C", 
+	"В": "V", 
+	"Б": "B", 
+	"Н": "N", 
+	"М": "M", 
+	"Ш": "Š", 
+	"Ђ": "Đ", 
+	"Ж": "Ž",
+	"Ч": "Č",
+	"Ћ": "Ć"
 }
 
 def cir_to_lat(txt): 
@@ -81,7 +81,7 @@ def lat_to_cir(text):
     ntext = text
     #print "# Translate 2-letter letters first"
     # Translate 2-letter letters first 
-    for cl in cir_lat_map.keys(): 
+    for cl in list(cir_lat_map.keys()): 
     	if len(cir_lat_map[cl]) == 2: 
     		#print cir_lat_map[cl] + " -> " + cl
     		ntext = ntext.replace(cir_lat_map[cl], cl)
@@ -89,7 +89,7 @@ def lat_to_cir(text):
     
     #print "# Translate 1-letter letters"
     # Translate 1-letter letters
-    for cl in cir_lat_map.keys(): 
+    for cl in list(cir_lat_map.keys()): 
     	if len(cir_lat_map[cl]) == 1: 
     		#print cir_lat_map[cl] + " -> " + cl
     		ntext = ntext.replace(cir_lat_map[cl], cl)
@@ -134,8 +134,8 @@ class TranslatorParser(Parser):
     def onListStart(self, mode): pass
     def onListEnd(self): pass
     def onListItem(self, level, text):
-	l = TranslatorLineParser(text) 
-	new_text = l.getOutput()
+        l = TranslatorLineParser(text) 
+        new_text = l.getOutput()
         self.frame += "  * " + new_text + "\n"
     def onCodeStart(self, language, filename): 
         self.frame += "<code>" + "\n"
@@ -149,7 +149,7 @@ class TranslatorParser(Parser):
         self.frame += "\n"
     def onText(self, text):
         l = TranslatorLineParser(text)
-	self.frame += l.getOutput() # huh, easy :)
+        self.frame += l.getOutput() # huh, easy :)
         self.frame += "\n" # Don't forget to take newline
     def onDocumentEnd(self): pass
     def getOutput(self): 
@@ -158,7 +158,7 @@ class TranslatorParser(Parser):
 if __name__ == "__main__": 
 	# load whole file 
 	f = open(sys.argv[1], "r") 
-	text = f.read().decode("utf8")
+	text = f.read()#.decode("utf8")
 	lines = text.split("\n")
 	p = TranslatorParser()
 	#print text
@@ -167,4 +167,4 @@ if __name__ == "__main__":
 	    p.parse(line) 
 	p.finish()
 
-	print p.getOutput().encode("utf8")
+	print(p.getOutput())

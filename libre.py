@@ -108,10 +108,10 @@ class LibreManager(object):
 		for link in links:
 			if link["type"] == "local": 
 				#print link["page"]
-				print "getting page " + link["page"]
+				print("getting page " + link["page"])
 				libretext = self.getPage(link["page"])
-				print "Title: " + libretext.getTitle() 
-				print
+				print("Title: " + libretext.getTitle()) 
+				print()
 				#print "Title: " + libretext.getTitle()
 				res.append(libretext)
 		return res
