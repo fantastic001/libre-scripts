@@ -201,4 +201,4 @@ for item in news:
 	print(str(item))
 
 print("") 
-print("~DISCUSSION~~")
+print("~~DISCUSSION~~")
