@@ -30,66 +30,66 @@ from dokuwiki.parsers import LineParser
 from datetime import date 
 
 cir_lat_map = {
-	u"љ": u"lj", 
-	u"њ": u"nj", 
-	u"е": u"e", 
-	u"р": u"r", 
-	u"т": u"t", 
-	u"з": u"z",
-	u"у": u"u", 
-	u"и": u"i", 
-	u"о": u"o", 
-	u"п": u"p", 
-	u"а": u"a",
-	u"с": u"s", 
-	u"д": u"d", 
-	u"ф": u"f", 
-	u"г": u"g", 
-	u"х": u"h", 
-	u"ј": u"j", 
-	u"к": u"k", 
-	u"л": u"l", 
-	u"џ": u"dž", 
-	u"ц": u"c", 
-	u"в": u"v", 
-	u"б": u"b", 
-	u"н": u"n", 
-	u"м": u"m", 
-	u"ш": u"š", 
-	u"ђ": u"đ",
-	u"ж": u"ž", 
-	u"ч": u"č", 
-	u"ћ": u"ć", 
-	u"Љ": u"Lj",
-	u"Њ": u"Nj",
-	u"Е": u"E", 
-	u"Р": u"R",
-	u"Т": u"T", 
-	u"З": u"Z", 
-	u"У": u"U",
-	u"И": u"I", 
-	u"О": u"O",
-	u"П": u"P",
-	u"А": u"A",
-	u"С": u"S", 
-	u"Д": u"D", 
-	u"Ф": u"F", 
-	u"Г": u"G", 
-	u"Х": u"H", 
-	u"Ј": u"J", 
-	u"К": u"K", 
-	u"Л": u"L", 
-	u"Џ": u"Dž", 
-	u"Ц": u"C", 
-	u"В": u"V", 
-	u"Б": u"B", 
-	u"Н": u"N", 
-	u"М": u"M", 
-	u"Ш": u"Š", 
-	u"Ђ": u"Đ", 
-	u"Ж": u"Ž",
-	u"Ч": u"Č",
-	u"Ћ": u"Ć"
+	"љ": "lj", 
+	"њ": "nj", 
+	"е": "e", 
+	"р": "r", 
+	"т": "t", 
+	"з": "z",
+	"у": "u", 
+	"и": "i", 
+	"о": "o", 
+	"п": "p", 
+	"а": "a",
+	"с": "s", 
+	"д": "d", 
+	"ф": "f", 
+	"г": "g", 
+	"х": "h", 
+	"ј": "j", 
+	"к": "k", 
+	"л": "l", 
+	"џ": "dž", 
+	"ц": "c", 
+	"в": "v", 
+	"б": "b", 
+	"н": "n", 
+	"м": "m", 
+	"ш": "š", 
+	"ђ": "đ",
+	"ж": "ž", 
+	"ч": "č", 
+	"ћ": "ć", 
+	"Љ": "Lj",
+	"Њ": "Nj",
+	"Е": "E", 
+	"Р": "R",
+	"Т": "T", 
+	"З": "Z", 
+	"У": "U",
+	"И": "I", 
+	"О": "O",
+	"П": "P",
+	"А": "A",
+	"С": "S", 
+	"Д": "D", 
+	"Ф": "F", 
+	"Г": "G", 
+	"Х": "H", 
+	"Ј": "J", 
+	"К": "K", 
+	"Л": "L", 
+	"Џ": "Dž", 
+	"Ц": "C", 
+	"В": "V", 
+	"Б": "B", 
+	"Н": "N", 
+	"М": "M", 
+	"Ш": "Š", 
+	"Ђ": "Đ", 
+	"Ж": "Ž",
+	"Ч": "Č",
+	"Ћ": "Ć"
 }
 
 
@@ -98,7 +98,7 @@ def lat_to_cir(text):
     ntext = text
     #print "# Translate 2-letter letters first"
     # Translate 2-letter letters first 
-    for cl in cir_lat_map.keys(): 
+    for cl in list(cir_lat_map.keys()): 
     	if len(cir_lat_map[cl]) == 2: 
     		#print cir_lat_map[cl] + " -> " + cl
     		ntext = ntext.replace(cir_lat_map[cl], cl)
@@ -106,7 +106,7 @@ def lat_to_cir(text):
     
     #print "# Translate 1-letter letters"
     # Translate 1-letter letters
-    for cl in cir_lat_map.keys(): 
+    for cl in list(cir_lat_map.keys()): 
     	if len(cir_lat_map[cl]) == 1: 
     		#print cir_lat_map[cl] + " -> " + cl
     		ntext = ntext.replace(cir_lat_map[cl], cl)
@@ -169,37 +169,36 @@ class LibreNewsItem(object):
 		s += lat_to_cir("Koristan link: ") + self.url + " \\\\\n"
 		s += "\\\\\n"
 		s += "\n" 
-		return s.encode("utf8")
+		return s
 
-print "Welcome to LiBRE! news generator!"
-print 
-issue = raw_input("Enter issue number: ")
+print("Welcome to LiBRE! news generator!")
+print("") 
+issue = input("Enter issue number: ")
 news = []
 while True: 
 	
-	print "Enter q for quit and saving and viewing resulting page." 
-	print "Enter a to add new item."
+	print("Enter q for quit and saving and viewing resulting page.") 
+	print("Enter a to add new item.")
 	# TODO Make it to work with python 3.x too 
-	q = raw_input("> ") 
+	q = input("> ") 
 	if q == "a":
-		_title = raw_input("Title: ").decode("utf8") 
-		_date = raw_input("Date (%d. %month %Y. format): ").decode("utf8")
-		_description = raw_input("Description: ").decode("utf8")
-		_url = raw_input("URL: ").decode("utf8")
+		_title = input("Title: ")
+		_date = input("Date (%d. %month %Y. format): ")
+		_description = input("Description: ")
+		_url = input("URL: ")
 		news.append(LibreNewsItem(_title, _date, _description, _url))
 	elif q == "q": 
 		break 
 	else: 
-		print "Wrong command." 
+		print("Wrong command.") 
 		continue
 
 
-print "ORIGINAL" 
+print("ORIGINAL") 
 
-print lat_to_cir("======LiBRE! vesti %s======" % issue).encode("utf8")
-print 
+print(lat_to_cir("======LiBRE! vesti %s======" % str(issue)))
 for item in news: 
-	print str(item)
+	print(str(item))
 
-print 
-print "~DISCUSSION~~"
+print("") 
+print("~DISCUSSION~~")
